@@ -17,3 +17,7 @@ Generate SmUUID in terminal using
 ```
 uuidgen command
 ```
+
+# clover installer
+https://mackie100projects.altervista.org/download-clover-configurator/
+https://github.com/CloverHackyColor/CloverBootloader/releases
