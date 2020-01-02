@@ -23,9 +23,16 @@ https://mackie100projects.altervista.org/download-clover-configurator/
 https://github.com/CloverHackyColor/CloverBootloader/releases
 
 # updating from 10.15.1 > 10.15.2 worked, but the next day somehow my boot options were gone
+update have to select - data partition https://www.tonymacx86.com/threads/macos-catalina-10-15-0-supplemental-update.285293/
+
 ended up creating another volume and install macos from usb - was able to boot, hence not efi folder fault
 after searching for quite some time (keyword clover filevault boot gone), realised I had somehow turn on FileVault during the update i think, checked status using
 ```
 diskutil apfs list
 ```
 to turn off FileVault refer to https://bigendians.com/2019/01/11/hackintosh-apfs-and-filevault-2-encryption-boot-problems/
+
+optimise battery life - CPUFriend + CPUFriendFriend, check Intel Power Gadget min frequency before optimise was > 1
+https://fewtarius.gitbook.io/laptopguide/battery-power-management/optimizing-battery-life
+
+more detailed way to understand how CPUFriend worked https://olarila.com/forum/viewtopic.php?t=8268
