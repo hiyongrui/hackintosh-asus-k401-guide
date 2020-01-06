@@ -36,3 +36,10 @@ optimise battery life - CPUFriend + CPUFriendFriend, check Intel Power Gadget mi
 https://fewtarius.gitbook.io/laptopguide/battery-power-management/optimizing-battery-life
 
 more detailed way to understand how CPUFriend worked https://olarila.com/forum/viewtopic.php?t=8268
+
+brightness consistency everytime when boot use Whatevergreen and compile its SSDT-PNLF
+
+prevent HalUsbInMpdu() during booting and shutdown use v10 version instead of latest v11 
+https://github.com/chris1111/Wireless-USB-Adapter-Clover/issues/51
+
+disable internal bluetooth/usb port limit use usbinjectall, use hackintool or usbmap
