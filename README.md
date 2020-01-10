@@ -43,3 +43,11 @@ prevent HalUsbInMpdu() during booting and shutdown use v10 version instead of la
 https://github.com/chris1111/Wireless-USB-Adapter-Clover/issues/51
 
 disable internal bluetooth/usb port limit use usbinjectall, use hackintool or usbmap
+
+dual boot windows, set clover to be default boot option priority 1, catalina to be default boot volume
+https://hackintosh-multiboot.gitbook.io/hackintosh-multiboot/uefi/1-disk-+-no-os-macos
+PS: bypass sign in microsoft option by disabling wifi.
+
+rename custom boot entry option
+https://www.reddit.com/r/hackintosh/comments/2k0wi0/clover_rename_os_x_volume/
+https://www.reddit.com/r/hackintosh/comments/40afda/customization_how_to_get_rid_of_certain_drives_on/
