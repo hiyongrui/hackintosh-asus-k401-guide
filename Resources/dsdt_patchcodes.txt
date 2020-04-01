@@ -1,0 +1,99 @@
+TAH0 - 16 no
+TAH1 - 16 no
+
+B0PN - 16 no
+B0TM - 16
+
+B0C1 - 16
+B0C2 - 16
+
+B0C3 - 16 yes
+
+B0C4 - 16
+
+B1PN - 16
+B1TM - 16
+
+B1C1
+B1C2
+B1C3
+B1C4
+
+
+//B0C3 = B0C0, B0C1
+B0C3 = C0C0, C0C1
+
+B0SN yes = B0S0, BOS1
+
+B1SN yes = B1S0, B1S1
+
+into device label EC0 code_regex B0C3,\s+16, replace_matched begin C0C0,8,C0C1,8, end;
+into device label EC0 code_regex B0SN,\s+16, replace_matched begin B0S0,8,B0S1,8, end;
+into device label EC0 code_regex B1SN,\s+16, replace_matched begin B1S0,8,B1S1,8, end; 
+
+into method label B1B2 remove_entry;
+into definitionblock code_regex . insert
+begin
+Method (B1B2, 2, NotSerialized) { Return(Or(Arg0, ShiftLeft(Arg1, 8))) }\n
+end;
+
+B1B2(\_SB.PCI0.LPCB.EC0.B0S0,\_SB.PCI0.LPCB.EC0.B0S1)
+
+//B1B2(\_SB.PCI0.LPCB.EC0.B0C0,\_SB.PCI0.LPCB.EC0.B0C1)
+B1B2(\_SB.PCI0.LPCB.EC0.C0C0,\_SB.PCI0.LPCB.EC0.C0C1)
+
+
+
+Final step
+
+#utility methods to read/write buffers from/to EC
+
+into method label RE1B parent_label H_EC remove_entry;
+into method label RECB parent_label H_EC remove_entry;
+into device label EC0 insert
+begin
+Method (RE1B, 1, NotSerialized)\n
+{\n
+	OperationRegion(EC0R, EmbeddedControl, Arg0, 1)\n
+	Field(EC0R, ByteAcc, NoLock, Preserve) { BYTE, 8 }\n
+	Return(BYTE)\n
+}\n
+Method (RECB, 2, Serialized)\n
+{\n
+	ShiftRight(Arg1, 3, Arg1)\n
+	Name(TEMP, Buffer(Arg1) { })\n
+	Add(Arg0, Arg1, Arg1)\n
+	Store(0, Local0)\n
+	While (LLess(Arg0, Arg1))\n
+	{
+		Store(RE1B(Arg0), Index(TEMP, Local0))\n
+		Increment(Arg0)\n
+		Increment(Local0)\n
+	}\n
+	Return(TEMP)\n
+}\n
+end;
+
+into device label EC0 insert
+begin
+Method (WE1B, 2, NotSerialized)\n
+{\n
+    OperationRegion(EC0R, EmbeddedControl, Arg0, 1)\n
+    Field(EC0R, ByteAcc, NoLock, Preserve) { BYTE, 8 }\n
+    Store(Arg1, BYTE)\n
+}\n
+Method (WECB, 3, Serialized)\n
+{\n
+    ShiftRight(Arg1, 3, Arg1)\n
+    Name(TEMP, Buffer(Arg1) { })\n
+    Store(Arg2, TEMP)\n
+    Add(Arg0, Arg1, Arg1)\n
+    Store(0, Local0)\n
+    While (LLess(Arg0, Arg1))\n
+    {\n
+        WE1B(Arg0, DerefOf(Index(TEMP, Local0)))\n
+        Increment(Arg0)\n
+        Increment(Local0)\n
+    }\n
+}\n
+end;
